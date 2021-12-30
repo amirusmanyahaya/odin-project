@@ -13,6 +13,7 @@ body{
 .form-container{
     width: 25%;
     height: 35vh;
+    padding-top: 1.2rem;
     display: flex;
     flex-direction: column;
     box-shadow: 0 0 15px 4px rgba(0,0,0,0.06);
@@ -25,10 +26,11 @@ body{
     margin: 0 auto;
     padding: 0.8rem;
     border-radius: 0.8rem;
-    border: 0;
-    box-shadow: 0 0 15px 4px rgba(0,0,0,0.06);
+    border: none;
     font-size: 1.2rem;
     font-weight: bold;
+    background-color: #3F51B5;
+    color: #fff;
 
 }
 #author, #title, #pages{
