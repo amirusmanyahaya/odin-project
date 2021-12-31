@@ -31,9 +31,47 @@ const addBookToLibrary = (book) => {
     myLibrary.push(book)
 }
 
+const createBookDiv = (book) => {
+    const bookDiv = document.createElement('div')
+    const title = document.createElement('p')
+    const author = document.createElement('p')
+    const pages = document.createElement('p')
+    const read = document.createElement('p')
+    const titleText = document.createTextNode(`Book Title: ${book.title}`)
+    const authorText = document.createTextNode(`Book Author: ${book.author}`)
+    const pagesText = document.createTextNode(`Number of Pages: ${book.pages}`)
+    const readText = document.createTextNode(`Book read: ${book.read ? "Yes" : "NO"}`)
+
+    title.appendChild(titleText)
+    author.appendChild(authorText)
+    pages.appendChild(pagesText)
+    read.appendChild(readText)
+
+    bookDiv.appendChild(title)
+    bookDiv.appendChild(author)
+    bookDiv.appendChild(pages)
+    bookDiv.appendChild(read)
+
+    return bookDiv
+}
+
+const displayBooks = (library) => {
+        const booksContainer = document.querySelector('.books-container')
+        if(booksContainer.style.display === ""){
+            booksContainer.style.display = "block"
+            console.log(booksContainer.style.display)
+        }
+        library.forEach((book) => {
+            const bookDiv = createBookDiv(book)
+            booksContainer.appendChild(bookDiv)
+        })
+}
+
 const addButton = document.querySelector('.add-button')
 addButton.addEventListener('click',() => {
     const book = fetchBookDetail()
     addBookToLibrary(book)
-    console.log(myLibrary)
+    displayBooks(myLibrary)
 })
+
+
