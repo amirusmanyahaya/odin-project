@@ -52,14 +52,17 @@ const createBookDiv = (book) => {
     bookDiv.appendChild(pages)
     bookDiv.appendChild(read)
 
+    bookDiv.classList.add('book')
+
     return bookDiv
 }
 
 const displayBooks = (library) => {
         const booksContainer = document.querySelector('.books-container')
+        // ensures that a book is not displayed more than once
+        booksContainer.innerHTML = ""
         if(booksContainer.style.display === ""){
             booksContainer.style.display = "block"
-            console.log(booksContainer.style.display)
         }
         library.forEach((book) => {
             const bookDiv = createBookDiv(book)
@@ -70,8 +73,10 @@ const displayBooks = (library) => {
 const addButton = document.querySelector('.add-button')
 addButton.addEventListener('click',() => {
     const book = fetchBookDetail()
-    addBookToLibrary(book)
-    displayBooks(myLibrary)
+    if(book.title !=="" && book.author !=="" && book.pages !==""){
+        document.querySelector('.form-container').reset()
+        addBookToLibrary(book)
+        displayBooks(myLibrary)
+    }
 })
-
 
