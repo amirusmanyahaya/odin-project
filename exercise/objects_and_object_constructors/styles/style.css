@@ -36,11 +36,13 @@ body{
 .book{
     box-shadow: 0 0 15px 4px rgba(0,0,0,0.06);
     width: 90%;
-    margin: 0.5rem auto;
+    margin: 2rem auto;
     padding: 0.8rem;
+    border-radius: 0.8rem;
+    padding-left: 1.5rem;
 }
 
-.add-button{
+button{
     width: fit-content;
     margin: 0 auto;
     padding: 0.8rem;
@@ -68,5 +70,9 @@ body{
 
 input{
     font-family: inherit;
+}
+
+.delete-button{
+    margin-left: 1.2rem;
 }
 
