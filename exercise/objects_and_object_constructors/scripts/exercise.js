@@ -12,6 +12,11 @@ Book.prototype.info = function(){
     return `${this.title} by ${this.author}, ${this.pages} pages, ${this.read ? "not read yet": "read"}`
 }
 
+Book.prototype.toggleRead = function(){
+    // set read to No if yes, otherwise set to No
+    this.read = this.read ? false : true
+}
+
 const addToLibrary = (book) => {
     myLibrary.push(book)
 }
@@ -31,7 +36,7 @@ const addBookToLibrary = (book) => {
     myLibrary.push(book)
 }
 
-const createBookDiv = (book) => {
+const createBookDiv = (book,index) => {
     const bookDiv = document.createElement('div')
     const title = document.createElement('p')
     const titleSpan = document.createElement('span')
@@ -61,7 +66,9 @@ const createBookDiv = (book) => {
     
     toggleButton.innerHTML = "Read Book?"
     deleteButton.innerHTML = "Delete Book"
-    toggleButton.classList.add('toogle-button')
+    toggleButton.setAttribute('data-id',`${index}`)
+    deleteButton.setAttribute('data-id',`${index}`)
+    toggleButton.classList.add('toggle-button')
     deleteButton.classList.add('delete-button')
     titleSpan.classList.add('title-text')
     authorSpan.classList.add('author-text')
@@ -87,8 +94,8 @@ const displayBooks = (library) => {
         if(booksContainer.style.display === ""){
             booksContainer.style.display = "block"
         }
-        library.forEach((book) => {
-            const bookDiv = createBookDiv(book)
+        library.forEach((book,index) => {
+            const bookDiv = createBookDiv(book,index)
             booksContainer.appendChild(bookDiv)
         })
 }
@@ -102,4 +109,41 @@ addButton.addEventListener('click',() => {
         displayBooks(myLibrary)
     }
 })
+
+
+const observer = new MutationObserver((mutations,obs) => {
+    const toggleButtons = Array.from(document.querySelectorAll('.toggle-button'))
+    const deleteButtons = Array.from(document.querySelectorAll('.delete-button'))
+    if(toggleButtons.length > 0){
+
+        toggleButtons.forEach((btn) => {
+            btn.addEventListener('click',() => {
+                const index = parseInt(btn.getAttribute('data-id'))
+                myLibrary[index].toggleRead()
+                displayBooks(myLibrary)
+            })
+        })
+
+        deleteButtons.forEach((btn) => {
+            btn.addEventListener('click',() => {
+                const index = parseInt(btn.getAttribute('data-id'))
+                myLibrary.splice(index,index+1)
+                displayBooks(myLibrary)
+                if(myLibrary.length === 0){
+                    const booksContainer = document.querySelector('.books-container')
+                    booksContainer.style.display = ''
+                }
+            })
+        })
+    }
+})
+
+observer.observe(document,{
+    childList: true,
+    subtree: true
+  })
+
+
+
+
 
