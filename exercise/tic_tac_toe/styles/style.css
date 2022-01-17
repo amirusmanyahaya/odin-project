@@ -1,0 +1,23 @@
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+}
+
+
+.game-container{
+    display: flex;
+    height: 100vh;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.grid{
+    display: grid;
+    grid-template-columns: repeat(3, 10rem);
+    gap: 1rem;
+}
+
+.grid-cell{
+    height: 10rem;
+}
