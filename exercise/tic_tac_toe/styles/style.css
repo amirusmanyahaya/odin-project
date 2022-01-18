@@ -6,10 +6,16 @@
 
 .game-container{
     display: flex;
-    height: 100vh;
+    height: 65vh;
     flex-direction: column;
-    justify-content: center;
+    justify-content: space-around;
     align-items: center;
+}
+
+.win-count-container{
+    display: flex;
+    min-width: 32rem;
+    justify-content: space-around;
 }
 
 .grid{
@@ -20,4 +26,7 @@
 
 .grid-cell{
     height: 10rem;
+    font-weight: 700;
+    font-size: 3rem;
 }
+

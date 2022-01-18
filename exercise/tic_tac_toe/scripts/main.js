@@ -1,5 +1,6 @@
-const GRID_CELLS = document.querySelectorAll('[data-position]')
-
+const GRID_CELLS = document.querySelectorAll(`[data-position]`)
+const PLAYER_ONE_COUNT = document.querySelector(`[data-win-count='ply-1']`)
+const PLAYER_TWO_COUNT = document.querySelector(`[data-win-count='ply-2']`)
 const createPlayer = (playerName,symbolType) => {
     const name = playerName
     const symbol = symbolType
@@ -13,17 +14,23 @@ const createPlayer = (playerName,symbolType) => {
         return symbol
     }
 
+    const getWinCount = () => {
+        return winCount
+    }
+
     const incrementWinCount = () => {
         winCount += 1
     }
 
-    return {getName,getSymbol,incrementWinCount}
+    return {getName,getSymbol,incrementWinCount, getWinCount}
 }
 
 
 const playerOne = createPlayer("Yahaya Usman","O")
 const playerTwo = createPlayer("Computer","X")
 
+PLAYER_ONE_COUNT.innerHTML = `${playerOne.getName()}: ${playerOne.getWinCount()}`
+PLAYER_TWO_COUNT.innerHTML = `${playerTwo.getName()}: ${playerTwo.getWinCount()}`
 
 const gameBoard = ((playerOne,playerTwo) => {
     let locations = [[null,null,null],[null,null,null],[null,null,null]]
@@ -80,22 +87,29 @@ const gameBoard = ((playerOne,playerTwo) => {
 
     const resetBoard = () => {
         currentPlayer.incrementWinCount()
-        locations = [[],[],[]]
+        PLAYER_ONE_COUNT.innerHTML = `${playerOne.getName()}: ${playerOne.getWinCount()}`
+        PLAYER_TWO_COUNT.innerHTML = `${playerTwo.getName()}: ${playerTwo.getWinCount()}`
+        locations = [[null,null,null],[null,null,null],[null,null,null]]
         isWin = false
         currentPlayer = players[Math.floor(Math.random()*2)]
+        GRID_CELLS.forEach(btn => {
+            btn.innerHTML = ""
+        })
     }
 
 
-    const insertSymbol = (symbol,row,col) => {
+    const insertSymbol = (symbol,row,col,btn) => {
         locations[row][col] = symbol
+        btn.innerHTML = symbol
+        
     }
 
 
-    const play = (location) => {
+    const play = (location,btn) => {
         let symbol = currentPlayer.getSymbol()
         let [row,col] = locationMapping[location]
         if(!(locations[row][col] === null)) return
-        insertSymbol(symbol,row,col)
+        insertSymbol(symbol,row,col,btn)
         console.log(locations[row][col])
         if(checkWin(row,col)){
             isWin = true
@@ -118,10 +132,7 @@ const gameBoard = ((playerOne,playerTwo) => {
 
 GRID_CELLS.forEach(btn => {
     btn.addEventListener('click',() => {
-        // once a button is clicked,
-        // get the data attribute for the clicked button
-        // the data attribute as the location value for calling the gaem object
         let location = btn.getAttribute('data-position')
-        gameBoard.play(location)
+        gameBoard.play(location,btn)
     })
 })
